@@ -195,12 +195,11 @@ Built `submitBooking(service)` which:
 
 The mobile app sends `isMobile: true` in all authenticated requests. Added it to the `apiClient` default headers so our web app requests are consistent with what the backend expects.
 
-### 11. Pushed to both repositories + removed diary from org
+### 11. Pushed to both repositories
 
 After all fixes:
-- Pushed to personal repo (`origin/main`) — includes diary
+- Pushed to personal repo (`origin/main`)
 - Pushed to org repo (`org/main`) — full website code
-- Removed diary from org repo using a temp branch (committed the deletion → pushed to org, then deleted temp branch so local and personal are untouched)
 
 ---
 
@@ -214,7 +213,7 @@ After all fixes:
 - Fixed "Network error" — Axios timeout was too short for the dev server
 - Fixed "Something went wrong" — `normalizeError` now handles nginx 504 HTML pages
 - Added `isMobile: true` header to all authenticated API calls
-- Pushed website code to personal and org repos; diary kept only on personal
+- Pushed website code to personal and org repos
 
 ---
 
