@@ -27,6 +27,8 @@ UtilStop is a multi-service booking platform operating in UAE and India. Custome
 | [01 July](july-01.md) | Manual testing, gap analysis, booking flow identified as incomplete |
 | [02 July](july-02.md) | Axios interceptor infinite loop — root cause found and fixed |
 | [03 July](july-03.md) | Silent refresh on page load — built, debugged, and verified live |
+| [04 July](july-04.md) | Supervisor meeting + OTP auth + real API wiring + all 6 static pages built |
+| [06 July](july-06.md) | 4-step booking flow, bug fixes (PayLater crash, booking 404s), code pushed to org |
 
 ---
 
