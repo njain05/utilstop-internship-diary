@@ -1,4 +1,4 @@
-# 07 July 2026 — Day 15: Mobile App API Investigation + Booking History Fix
+# 07 July 2026 — Day 15: API Investigation, Booking Creation Wired, Error Fixes, Org Repo Pushed
 
 ## What was the task?
 
@@ -108,11 +108,122 @@ cancel: (body) => apiClient.post('/new_user_cancelBooking', body),
 
 ---
 
+---
+
+## Part 2 — Afternoon: Booking Creation, Service Types/Offerings, Error Fixes
+
+### 5. Found booking creation endpoints via `appData`
+
+Logged into the dev API using test number `971XXXXXXXXX` (UAE test account — bypasses Twilio, any OTP works). Called `GET appData` with the returned JWT token to read the per-service `bookingDetailRoute` values.
+
+Two booking creation routes exist:
+- `POST book_other_services` — used by almost all services (AC, Cleaning, Pest Control, etc.)
+- `POST book_packersAndMovers` — used only by Packers & Movers and Item Moving
+
+The payload structure (reverse-engineered from `AddItems.js` in the mobile app):
+
+```js
+{
+  data: [{
+    table_name: "service_ac",   // e.g. service_cleaning, service_pest
+    service_id: "<encrypted>",
+    service_offering: "<encrypted offering id>",
+    service_type: "<encrypted type id or 0>",
+    service_date: "2026-07-15",
+    service_time: "09:00 – 11:00",
+    s_house_no: "Apt 4B",
+    s_area: "Marina Walk",
+    s_landmark: "",
+    service_state: "Dubai",
+    location_id: 0,
+    areaId: 0,
+    cost: 120.75,
+    min: 0, max: 0,
+    booking_id: null,
+    item_details: "",
+  }],
+  deleteBookingId: [],
+  cart_id: 0,
+  main: 1,
+  service_id: "<encrypted>",
+}
+```
+
+### 6. Wired Step 3 — dynamic service types and offerings
+
+Mani specifically asked to replace the static `ROOM_OPTIONS = ['Studio', '1 BR', '2 BR', ...]` in Step 3 (Details) with real API data, since each service has different types and offerings.
+
+Two-step fetch in `StepDetails`:
+1. `GET service_type/{serviceId}/` — returns array of types (or empty if the service has no types)
+2. `POST service_offerings/{serviceId}/{typeId}` with `{ date, state1, state2, area_id }` — returns offerings with prices
+
+If the service has no types (empty array), offerings are fetched directly with `typeId = 0`.
+
+The user first picks a type (e.g. "Split AC", "Window AC"), then picks one or more offerings (e.g. "AC Service", "AC Gas Fill") shown with their prices. Both selections are stored in Zustand (`selectedServiceType`, `selectedOfferings`) and passed into the booking payload on confirm.
+
+### 7. Wired the Confirm button — `submitBooking` in `useBooking.js`
+
+Built `submitBooking(service)` which:
+1. Determines the correct route (`book_other_services` or `book_packersAndMovers`) from the service name
+2. Builds the full payload from the Zustand store (address, date, time, type, offerings, notes)
+3. Calls `POST /{route}` with a 90-second timeout (the default 15s was killing slow dev requests)
+4. On success: navigates to `/booking/confirm/:bookingId`
+
+### 8. Fixed "Network error" on Confirm button
+
+**Problem:** Clicking "Confirm Booking" on AC Services showed "Network error. Please check your connection."
+
+**Root cause:** Axios had a global 15-second timeout. The `book_other_services` endpoint on the dev server is slow (vendor-matching logic). The request was dying at 15s with `ECONNABORTED`, which our `normalizeError` was mistakenly mapping to "Network error."
+
+**Fix:**
+- Set 90-second timeout specifically for `bookingApi.create`
+- Split `ECONNABORTED` (our timeout) from `ERR_NETWORK` (real connectivity issue) in `normalizeError`
+
+### 9. Fixed "Something went wrong" after the timeout fix
+
+**Problem:** With 90s timeout, the request now reached the server — but the response was a 504 Gateway Timeout HTML page from nginx (nginx has its own timeout shorter than 90s). `normalizeError` couldn't parse HTML, so it showed "Something went wrong."
+
+**Fix in `normalizeError`:** Detect HTML responses by checking if `data` is a string starting with `<`. Map them to:
+- 504 → "The server took too long to respond. Please try again in a moment."
+- Other HTML → "Server error (status). Please try again."
+
+**Fix in `StepReview`:** Error box now shows "Booking failed" as a title, the message, and the HTTP status code for easier debugging.
+
+**Root cause (not fixable from frontend):** The `book_other_services` dev server takes >60s for real bookings (likely because there are no vendors registered in the test area on dev). With an empty `data: []` payload it responds instantly (200). This is a dev environment limitation — on production with real vendors it should work.
+
+### 10. Added `isMobile: true` header to `apiClient`
+
+The mobile app sends `isMobile: true` in all authenticated requests. Added it to the `apiClient` default headers so our web app requests are consistent with what the backend expects.
+
+### 11. Pushed to both repositories + removed diary from org
+
+After all fixes:
+- Pushed to personal repo (`origin/main`) — includes diary
+- Pushed to org repo (`org/main`) — full website code
+- Removed diary from org repo using a temp branch (committed the deletion → pushed to org, then deleted temp branch so local and personal are untouched)
+
+---
+
+## What I accomplished today (full day)
+
+- Read mobile app source end to end and mapped the full booking architecture
+- Found correct booking history endpoint: `POST user_bookingsList`
+- Found booking creation routes: `book_other_services` and `book_packersAndMovers`
+- Replaced static room options with live `service_type` + `service_offerings` API calls
+- Wired Confirm button to real booking creation endpoint with correct payload shape
+- Fixed "Network error" — Axios timeout was too short for the dev server
+- Fixed "Something went wrong" — `normalizeError` now handles nginx 504 HTML pages
+- Added `isMobile: true` header to all authenticated API calls
+- Pushed website code to personal and org repos; diary kept only on personal
+
+---
+
 ## What's next
 
-- For booking creation: need to ask Mani what the `bookingDetailRoute` value is for each service (e.g. Home Cleaning, Pest Control) so we can wire up the confirm button correctly
-- The 4-step booking form we built is a good UX wrapper — we just need to know the correct POST endpoint and body shape to wire the final step
-- Profile edit and address book pages can be built now (endpoints like `GET endUsers/0`, `POST newUpdateUser`, `GET getAllAddress`, `POST saveAddress`)
+- Test booking creation on production (dev server vendor matching is too slow — 504 on every real request)
+- Profile edit page (`GET endUsers/0`, `POST newUpdateUser`)
+- Address book page (`GET getAllAddress`, `POST saveAddress`)
+- Payment flow wiring (`POST new_init_payment`, `POST afterpaymentSuccess`)
 
 ---
 

@@ -29,7 +29,7 @@ UtilStop is a multi-service booking platform operating in UAE and India. Custome
 | [03 July](july-03.md) | Silent refresh on page load — built, debugged, and verified live |
 | [04 July](july-04.md) | Supervisor meeting + OTP auth + real API wiring + all 6 static pages built |
 | [06 July](july-06.md) | 4-step booking flow, bug fixes (PayLater crash, booking 404s), code pushed to org |
-| [07 July](july-07.md) | Mobile app API investigation — found real booking history endpoints, cart-based architecture |
+| [07 July](july-07.md) | API investigation, booking creation wired, dynamic service types/offerings, 504 error fixes, pushed to org |
 
 ---
 
