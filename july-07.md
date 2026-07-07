@@ -217,12 +217,43 @@ After all fixes:
 
 ---
 
+### 12. Booking flow working end to end
+
+After comparing our payload with sir's working Postman test, found the remaining bugs:
+
+- **`service_time`** — we were sending `"09:00 – 11:00"` (the display slot). API expects only the start time `"09:00"`. Fixed by splitting on the dash: `slot.split(/\s*[–-]\s*/)[0]`
+- **`booking_id`** — sending `null`, should be `0`
+- **`people_count`** — missing entirely, added with default `1`
+- **`s_location`** — sending `{}`, now sends address string
+- **Offerings not loading** — city field had garbage test data ("sfsf"). Backend filters offerings by state/emirate. Entering "Dubai" made offerings load correctly
+
+After all fixes: Location → Schedule → Details (real types + offerings) → Review → **Confirm → Pay Now / Pay Later page**. Full booking flow working.
+
+---
+
+## What I accomplished today (full day)
+
+- Read mobile app source end to end and mapped the full booking architecture
+- Found correct booking history endpoint: `POST user_bookingsList`
+- Found booking creation routes: `book_other_services` and `book_packersAndMovers`
+- Replaced static room options with live `service_type` + `service_offerings` API calls
+- Wired Confirm button to real booking creation endpoint with correct payload shape
+- Fixed "Network error" — Axios timeout was too short for the dev server
+- Fixed "Something went wrong" — `normalizeError` now handles nginx 502/504 HTML pages
+- Fixed `service_time` format — start time only, not full slot range
+- Fixed `booking_id`, `people_count`, `s_location` fields to match real API format
+- Debugged empty offerings — city must be a real emirate (Dubai, Abu Dhabi, etc.)
+- **Full booking flow working end to end including Pay Now / Pay Later screen**
+- Pushed website code to personal and org repos
+
+---
+
 ## What's next
 
-- Test booking creation on production (dev server vendor matching is too slow — 504 on every real request)
 - Profile edit page (`GET endUsers/0`, `POST newUpdateUser`)
 - Address book page (`GET getAllAddress`, `POST saveAddress`)
 - Payment flow wiring (`POST new_init_payment`, `POST afterpaymentSuccess`)
+- Packers & Movers booking needs a separate flow (pickup + drop location, different payload format)
 
 ---
 
