@@ -30,6 +30,8 @@ UtilStop is a multi-service booking platform operating in UAE and India. Custome
 | [04 July](july-04.md) | Supervisor meeting + OTP auth + real API wiring + all 6 static pages built |
 | [06 July](july-06.md) | 4-step booking flow, bug fixes (PayLater crash, booking 404s), code pushed to org |
 | [07 July](july-07.md) | Full booking flow working end to end — API wiring, payload fixes, real types/offerings, Pay Now/Pay Later |
+| [08 July](july-08.md) | Merged team's PR — Packers & Movers flow, Stripe payment infrastructure, Google Maps integration |
+| [09 July](july-09.md) | Home page categories, Step 3 UI overhaul, offering descriptions, security fix (API keys), Vite proxy fix |
 
 ---
 
