@@ -33,6 +33,11 @@ UtilStop is a multi-service booking platform operating in UAE and India. Custome
 | [08 July](july-08.md) | Merged team's PR — Packers & Movers flow, Stripe payment infrastructure, Google Maps integration |
 | [09 July](july-09.md) | Home page categories, Step 3 UI overhaul, offering descriptions, security fix (API keys), Vite proxy fix |
 | [10 July](july-10.md) | Location picker fixes, tracking page → app download, Google Maps key, PR to org/developer |
+| [13 July](july-13.md) | Service detail pages, ScrollReveal component, P&M drawer fix, distance bug investigation |
+| [14 July](july-14.md) | Full team demo — presented web app to UtilStop team; pulled Sharanya's cart/guest-mode PR |
+| [15 July](july-15.md) | CountryToggle pill, OfferingViewDrawer extracted, OrderSummaryCard labels, Edit links on Review |
+| [16 July](july-16.md) | P&M 4-step flow, StepPackersSchedule, sidebar nav branch, PR #12 merged to org/developer |
+| [17 July](july-17.md) | Mega menu navbar approved + merged, Review step redesign with service hero image |
 
 ---
 
