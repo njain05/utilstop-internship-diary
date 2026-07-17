@@ -1,6 +1,6 @@
-# Developer Diary — 16 July 2026
+# Developer Diary — Day 20 (16 July 2026)
 
-[← 15 July](july-15.md) · [Home](index.md) · [17 July →](july-17.md)
+[← Day 19](day-19.md) · [Home](index.md) · [Day 21 →](day-21.md)
 
 ---
 
@@ -81,4 +81,4 @@ Removed the `diary/` folder from `org/developer` — it had accidentally been in
 
 ---
 
-[← 15 July](july-15.md) · [Home](index.md) · [17 July →](july-17.md)
+[← Day 19](day-19.md) · [Home](index.md) · [Day 21 →](day-21.md)

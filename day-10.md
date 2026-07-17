@@ -153,4 +153,4 @@ The auth layer is now fully hardened. Next priority: build out the actual **book
 
 ---
 
-[← 02 July](july-02.md) · [Home](index.md)
+[← Day 9](day-9.md) · [Home](index.md)

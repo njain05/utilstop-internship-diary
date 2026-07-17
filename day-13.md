@@ -257,4 +257,4 @@ After all fixes: Location → Schedule → Details (real types + offerings) → 
 
 ---
 
-[← 06 July](july-06.md) · [Home](index.md)
+[← Day 12](day-12.md) · [Home](index.md)

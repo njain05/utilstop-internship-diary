@@ -50,4 +50,4 @@ Polish everything, write the README, do a final review of every file, and push t
 
 ---
 
-[← 29 June](june-29.md) · [Next: 01 July →](july-01.md)
+[← Day 6](day-6.md) · [Next: 01 July →](day-8.md)

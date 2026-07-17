@@ -1,6 +1,6 @@
-# Developer Diary — 17 July 2026
+# Developer Diary — Day 21 (17 July 2026)
 
-[← 16 July](july-16.md) · [Home](index.md)
+[← Day 20](day-20.md) · [Home](index.md)
 
 ---
 
@@ -83,4 +83,4 @@ PR #13 raised and merged from `feature/sidebar-nav → developer`.
 
 ---
 
-[← 16 July](july-16.md) · [Home](index.md)
+[← Day 20](day-20.md) · [Home](index.md)

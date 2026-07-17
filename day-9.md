@@ -87,4 +87,4 @@ One logical change. The rest of the file is untouched.
 
 ---
 
-[← 01 July](july-01.md) · [Next: 03 July →](july-03.md)
+[← Day 8](day-8.md) · [Next: 03 July →](day-10.md)

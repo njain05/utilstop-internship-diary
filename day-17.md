@@ -1,6 +1,6 @@
-# Developer Diary — 13 July 2026
+# Developer Diary — Day 17 (13 July 2026)
 
-[← 10 July](july-10.md) · [Home](index.md)
+[← Day 16](day-16.md) · [Home](index.md)
 
 ---
 
@@ -117,4 +117,4 @@ Working in a git worktree (`.claude/worktrees/fix-service-slug`) and pushing to 
 
 ---
 
-[← 10 July](july-10.md) · [Home](index.md)
+[← Day 16](day-16.md) · [Home](index.md)

@@ -1,6 +1,6 @@
 # Developer Diary — 8 July 2026
 
-[← 07 July](july-07.md) · [Home](index.md) · [09 July →](july-09.md)
+[← Day 13](day-13.md) · [Home](index.md) · [Day 15 →](day-15.md)
 
 ---
 
@@ -96,4 +96,4 @@ End of day: Pay Now flow goes all the way through to a Stripe confirmation scree
 
 ---
 
-[← 07 July](july-07.md) · [Home](index.md) · [09 July →](july-09.md)
+[← Day 13](day-13.md) · [Home](index.md) · [Day 15 →](day-15.md)

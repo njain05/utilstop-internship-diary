@@ -1,6 +1,6 @@
 # Developer Diary — 9 July 2026
 
-[← 08 July](july-08.md) · [Home](index.md)
+[← Day 14](day-14.md) · [Home](index.md)
 
 ---
 
@@ -153,4 +153,4 @@ The category mapping was ported directly from the mobile app's `home.js` constan
 
 ---
 
-[← 08 July](july-08.md) · [Home](index.md)
+[← Day 14](day-14.md) · [Home](index.md)

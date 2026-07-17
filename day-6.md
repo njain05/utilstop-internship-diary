@@ -144,4 +144,4 @@ Every page connected to its route:
 
 ---
 
-[← 26 June](june-26.md) · [Next: 30 June →](june-30.md)
+[← Day 5](day-5.md) · [Next: 30 June →](day-7.md)

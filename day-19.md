@@ -1,6 +1,6 @@
-# Developer Diary — 15 July 2026
+# Developer Diary — Day 19 (15 July 2026)
 
-[← 14 July](july-14.md) · [Home](index.md) · [16 July →](july-16.md)
+[← Day 18](day-18.md) · [Home](index.md) · [Day 20 →](day-20.md)
 
 ---
 
@@ -75,4 +75,4 @@ The `ReviewRow` helper was updated to accept an optional `onEdit` prop. The `Ste
 
 ---
 
-[← 14 July](july-14.md) · [Home](index.md) · [16 July →](july-16.md)
+[← Day 18](day-18.md) · [Home](index.md) · [Day 20 →](day-20.md)

@@ -54,4 +54,4 @@ Ran the app with `npm run dev` and walked through every route manually:
 
 ---
 
-[← 30 June](june-30.md) · [Next: 02 July →](july-02.md)
+[← Day 7](day-7.md) · [Next: 02 July →](day-9.md)

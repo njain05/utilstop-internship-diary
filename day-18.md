@@ -1,6 +1,6 @@
-# Developer Diary — 14 July 2026
+# Developer Diary — Day 18 (14 July 2026)
 
-[← 13 July](july-13.md) · [Home](index.md) · [15 July →](july-15.md)
+[← Day 17](day-17.md) · [Home](index.md) · [Day 19 →](day-19.md)
 
 ---
 
@@ -47,4 +47,4 @@ Sharanya's PR #11 (`cart/guestmode`) was merged into `org/developer`. Pulled the
 
 ---
 
-[← 13 July](july-13.md) · [Home](index.md) · [15 July →](july-15.md)
+[← Day 17](day-17.md) · [Home](index.md) · [Day 19 →](day-19.md)
