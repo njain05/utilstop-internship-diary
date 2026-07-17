@@ -1,71 +1,71 @@
-# Developer Diary — Day 21 (17 July 2026)
+# 17 July 2026 — Day 21: Mega Menu Approved + Merged, Review Step Redesign
 
-[← Day 20](day-20.md) · [Home](index.md)
+## What was the task?
 
----
-
-## Overview
-
-Navigation redesign approved and merged — replaced the sidebar approach with a horizontal navbar + Services mega menu (inspired by EzeitPro). Redesigned the booking Review step with a service hero image banner and gradient fallback. Branch housekeeping and diary management.
+Sathesh sir reviewed the sidebar nav from Day 20 and wanted a different direction — a horizontal navbar with a hover mega-dropdown for Services, similar to EzeitPro's "Use Cases" menu. Also needed to redesign the booking Review step which still looked flat and plain.
 
 ---
 
-## 1. Mega menu — replacing the sidebar nav
+## What I did
 
-Sathesh sir reviewed the sidebar nav on `feature/sidebar-nav` and wanted a different approach: a **horizontal navbar with a hover mega-dropdown** for Services, similar to EzeitPro's "Use Cases" menu.
+### 1. Services mega menu — replacing the sidebar nav
 
-**What changed in Header.jsx:**
+Sathesh sir approved the EzeitPro-style approach. Built the new menu on `feature/sidebar-nav` before merging.
+
+**Changes to Header.jsx:**
 - Removed the sidebar drawer and hamburger button (desktop)
-- Restored a horizontal `<nav>` in the desktop header bar
-- Removed Partner With Us / Contact Us / Career / FAQ's from the navbar — they're already in the footer, no need to repeat them
+- Restored a horizontal `<nav>` bar in the desktop header
+- Removed Partner With Us / Contact Us / Career / FAQ's from the navbar — they're already in the footer
 - Desktop nav is now clean: `Home | Services ▾ | My Bookings`
 
-**ServicesMegaMenu component (new, defined in Header.jsx):**
-- Hover trigger with 120ms debounce (prevents accidental opens)
+**New `ServicesMegaMenu` component (defined in Header.jsx):**
+- Hover trigger with 120ms debounce (prevents accidental opens on mouse pass-through)
 - Wide panel (`min-w-[640px]`) centered under the "Services" button
 - Two sections stacked vertically: **Indoor Services** and **Outdoor Services**
-- Each section: category heading in `text-primary-600`, services in a **3-per-row grid**
-- Each service: small icon + name, links to `/services/{table_name}`
+- Each section: category heading in `text-primary-600`, services in a 3-per-row grid
+- Each service item: small icon + name, links to `/services/{table_name}`
 - "View All Services →" link at the bottom
 - Data sourced from the existing `useServices()` hook — no extra API calls, uses the same React Query cache
-- Falls back gracefully if `image_url` is missing (shows a bullet instead)
-
-Mobile menu: completely unchanged (still the accordion expand/collapse).
+- Mobile menu: completely unchanged (still accordion expand/collapse)
 
 PR #13 raised and merged from `feature/sidebar-nav → developer`.
 
 ---
 
-## 2. Booking Review step — visual redesign
+### 2. Booking Review step — visual redesign
 
-**Problem:** The Review step (Step 4) had a flat, plain card with no visual hierarchy — neutral-50 background, no shadow, no imagery.
+**Problem:** The Review step (Step 4) had a flat card — neutral-50 background, no shadow, no imagery. Looked unfinished next to the rest of the booking flow.
 
-**Redesign:**
+**Changes to StepReview in BookingFlowPage.jsx:**
 
-**Service hero image banner:**
-- Added a `h-44` image at the top of the review card using `service.image_url`
+**Service hero image banner (new):**
+- `h-44` full-width image at the top of the review card using `service.image_url`
 - Gradient overlay (`bg-gradient-to-t from-black/60 to-transparent`) makes the service name readable
-- Service name displayed in white bold text over the image
-- `onError` handler: if the image fails to load, automatically switches to a **primary-color gradient** (`from-primary-600 to-primary-800`) with the service's first letter as a large faded initial — looks intentional rather than broken
+- Service name in white bold text over the image
+- `onError` handler: if the image fails to load, switches to a primary-color gradient (`from-primary-600 to-primary-800`) with the service's first letter as a large faded initial — intentional-looking rather than broken
 
 **Card improvements:**
-- Container: `bg-white rounded-2xl shadow-lg border border-neutral-100 overflow-hidden` (was `bg-neutral-50 rounded-xl border border-neutral-200`)
-- `overflow-hidden` ensures the image respects the rounded corners
-- White background and shadow give the card more depth
-- SERVICE row removed when image is present (name is already shown in the banner)
+- Container changed from `bg-neutral-50 rounded-xl border border-neutral-200 px-4 py-1` to `bg-white rounded-2xl shadow-lg border border-neutral-100 overflow-hidden`
+- `overflow-hidden` ensures the image clips to the rounded corners
+- SERVICE row removed — name is already shown in the image banner
 
 ---
 
-## 3. Branch and repo housekeeping
+### 3. Branch and repo housekeeping
 
-- Committed the Review step redesign to `developer`
-- Merged `developer` into personal `main` branch and pushed to `origin/main` — personal fork is fully up to date
-- Restored `diary/` folder to personal `main` only — it was accidentally deleted during the org cleanup yesterday
-- Diary is now correctly in `njain05/utilstop-website` main only, not in the org repo
+- Pushed all developer changes to personal fork `origin/main` — personal fork up to date
+- Restored `diary/` to personal `main` only — it had been accidentally removed during the org cleanup yesterday
+- Diary is now correctly in `njain05/utilstop-website main` only, not in the org repo
 
 ---
 
-## What I accomplished today
+## Problems faced
+
+- **Women Salon service image never loads** — `image_url` exists in the API response but the image file is missing server-side. Fixed by adding an `onError` handler that switches to the gradient fallback, so the card always looks good regardless.
+
+---
+
+## What I accomplished
 
 - Replaced sidebar nav with horizontal navbar + Services mega menu (Sathesh sir approved)
 - Merged feature/sidebar-nav PR #13 into org/developer
@@ -77,9 +77,9 @@ PR #13 raised and merged from `feature/sidebar-nav → developer`.
 
 ## What's next
 
-- Fix broken service type/offering images across the booking flow (thumbnails not loading)
-- Continue UI polish across remaining pages
-- Profile edit, Address Book, Notifications pages
+- Fix broken service type/offering thumbnail images across the booking flow
+- Continue UI polish — Profile edit, Address Book, Notifications pages
+- Commit the Review step redesign to org/developer
 
 ---
 

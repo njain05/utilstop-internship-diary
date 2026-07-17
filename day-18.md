@@ -1,18 +1,16 @@
-# Developer Diary — Day 18 (14 July 2026)
+# 14 July 2026 — Day 18: Full Team Demo + Pulled Sharanya's Cart/Guest-Mode PR
 
-[← Day 17](day-17.md) · [Home](index.md) · [Day 19 →](day-19.md)
+## What was the task?
 
----
-
-## Overview
-
-Big day — presented the UtilStop web application to the full UtilStop team in an internal demo. Also pulled in Sharanya's cart and guest-mode fixes from the org repo.
+Present the UtilStop web application to the full team in an internal demo. Also pull in Sharanya's latest PR which had cart and guest-mode fixes.
 
 ---
 
-## 1. Team demo
+## What I did
 
-Presented the web app to the entire UtilStop team, including Sathesh sir and other stakeholders. Walked through the full booking flow live — selecting a service, picking a location, scheduling, adding service details, and the review step. The demo went well and received positive feedback from the team.
+### 1. Full team demo
+
+Presented the web app to the entire UtilStop team, including Sathesh sir and other stakeholders. Walked through the full booking flow live — selecting a service, picking a location, scheduling, adding service details, and the review step. Demo went well and received positive feedback.
 
 Key things shown:
 - Home page with service categories (Indoor / Outdoor)
@@ -23,7 +21,7 @@ Key things shown:
 
 ---
 
-## 2. Pulled Sharanya's cart + guest-mode PR
+### 2. Pulled Sharanya's cart + guest-mode PR (#11)
 
 Sharanya's PR #11 (`cart/guestmode`) was merged into `org/developer`. Pulled the latest from org to stay in sync. Her changes included:
 - Cart functionality improvements
@@ -32,7 +30,7 @@ Sharanya's PR #11 (`cart/guestmode`) was merged into `org/developer`. Pulled the
 
 ---
 
-## What I accomplished today
+## What I accomplished
 
 - Presented full web app demo to UtilStop team — well received
 - Pulled Sharanya's cart/guestmode changes from org/developer

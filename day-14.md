@@ -1,16 +1,14 @@
-# Developer Diary — 8 July 2026
+# 08 July 2026 — Day 14: Team PR Merged, Payment Flow Built, Maps & Stripe Integrated
 
-[← Day 13](day-13.md) · [Home](index.md) · [Day 15 →](day-15.md)
+## What was the task?
 
----
-
-## Overview
-
-Long day of integration work. A big PR came in from the team (Sharanya) that added the full Packers & Movers booking flow, country selection, and Stripe payment infrastructure. Spent the day reviewing, pulling, merging, and debugging the integration — particularly around env config and the payment page routing.
+A big PR came in from the team (Sharanya) that added the full Packers & Movers booking flow, country selection modal, and Stripe payment infrastructure. The task was to review it, merge it, and get everything working — env config, payment routing, and the Maps integration were all broken out of the box.
 
 ---
 
-## 1. Pulled in the team's `features` branch (PR #1)
+## What I did
+
+### 1. Pulled in the team's `features` branch (PR #1)
 
 The organisation repo's `features` branch landed as a pull request. It was a large chunk of work:
 
@@ -33,21 +31,11 @@ The organisation repo's `features` branch landed as a pull request. It was a lar
 - `src/utils/googleMaps.js` — loads Google Maps JS API and exports geocoding helpers
 - `src/utils/stripeClient.js` — initialises the Stripe.js client using the env key
 
-**Store additions:**
-- `bookingStore.js` — new fields for Packers & Movers: pickup address, drop address, items, vehicle type
-- `locationStore.js` — added selected country field
-
-**Significant changes to existing files:**
-- `BookingFlowPage.jsx` — extended with country select trigger and Packers & Movers branch
-- `services.api.js` — new endpoints for Packers & Movers (service availability, pricing)
-- `payment.api.js` — payment initiation and confirmation endpoints added
-- `env.js` — new keys for Google Maps and Stripe added
-
-The PR touched 30 files with 1378 insertions. It's a big surface area. Merged into `nishtha-dev` after reviewing.
+The PR touched 30 files with 1378 insertions. Merged into `nishtha-dev` after reviewing.
 
 ---
 
-## 2. Env config and Constants.js wrestling
+### 2. Env config and Constants.js wrestling
 
 After merging, the app had runtime errors. Traced them to two issues:
 
@@ -55,11 +43,9 @@ After merging, the app had runtime errors. Traced them to two issues:
 
 **Vite config proxy issue:** The `vite.config.js` proxy rewrite rules needed adjustment after the new endpoints were added. Updated the rewrite logic to ensure the `/api` prefix is correctly stripped before forwarding to the backend.
 
-These fixes went in as the `changes` commit.
-
 ---
 
-## 3. Payment page overhaul
+### 3. Payment page overhaul
 
 The `PaymentFlow.jsx` that came in the PR was skeletal — roughly 140 lines. After testing, it needed significant work:
 
@@ -67,13 +53,20 @@ The `PaymentFlow.jsx` that came in the PR was skeletal — roughly 140 lines. Af
 - **Stripe Elements integration** — The card input form was wired up properly with `useStripe()` and `useElements()` hooks. Handles loading state, error messages from Stripe, and the `paymentIntent.confirm` step.
 - **PaymentPage.jsx** — Added a wrapper page that decides whether to show Pay Now (Stripe) or Pay Later (confirmation screen). Routes updated in `AppRouter.jsx` and `routes.js`.
 - **LocationPickerModal cleanup** — The map initialisation had a race condition where the map container wasn't in the DOM when `new google.maps.Map()` was called. Added a `useEffect` with a ref check to defer initialisation.
-- **PayLaterPage and PayNowPage** — Simplified — these pages now just display confirmation UI. The actual payment logic lives entirely in `PaymentFlow.jsx`.
 
 End of day: Pay Now flow goes all the way through to a Stripe confirmation screen. Pay Later shows a booking reference. Both are integrated with the router correctly.
 
 ---
 
-## What I accomplished today
+## Problems faced
+
+- **Runtime crashes after merge** — Missing `.env` keys caused `undefined` errors in Google Maps and Stripe init. Fixed by adding temp values to `Constants.js`.
+- **Vite proxy double-path** — Proxy was forwarding to `/api/api/v1/...`. Fixed by updating rewrite target.
+- **LocationPickerModal map race condition** — `new google.maps.Map()` called before the container div was in the DOM. Fixed with a `useEffect` ref guard.
+
+---
+
+## What I accomplished
 
 - Reviewed and merged PR #1 (Packers & Movers flow + payment infrastructure) from the team
 - Integrated Google Maps utility and Stripe client setup
@@ -91,7 +84,6 @@ End of day: Pay Now flow goes all the way through to a Stripe confirmation scree
 - Packers & Movers flow still needs testing with real addresses (Google Maps API key required)
 - Profile edit page (`GET endUsers/0`, `POST newUpdateUser`)
 - Address book page (`GET getAllAddress`, `POST saveAddress`)
-- Home page could be more structured — the service cards all go to the same `/book` route
 - Security audit of Constants.js — currently has keys hardcoded (need to move to `.env`)
 
 ---
