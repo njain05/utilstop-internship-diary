@@ -101,4 +101,4 @@ Mani also mentioned today that going forward, code should not go directly to `ma
 
 ---
 
-[← Day 11](day-11.md) · [Home](index.md)
+[← Day 11](day-11.md) · [Home](index.md) · [Day 13 →](day-13.md)

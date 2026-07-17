@@ -1,6 +1,6 @@
 # Developer Diary — Day 16 (10 July 2026)
 
-[← Day 15](day-15.md) · [Home](index.md)
+[← Day 15](day-15.md) · [Home](index.md) · [Day 17 →](day-17.md)
 
 ---
 
@@ -153,4 +153,4 @@ Diary folder was removed from `org/nishtha-dev` before raising the PR (using a t
 
 ---
 
-[← Day 15](day-15.md) · [Home](index.md)
+[← Day 15](day-15.md) · [Home](index.md) · [Day 17 →](day-17.md)

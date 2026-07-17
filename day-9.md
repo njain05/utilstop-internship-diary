@@ -87,4 +87,4 @@ One logical change. The rest of the file is untouched.
 
 ---
 
-[← Day 8](day-8.md) · [Next: 03 July →](day-10.md)
+[← Day 8](day-8.md) · [Home](index.md) · [Day 10 →](day-10.md)

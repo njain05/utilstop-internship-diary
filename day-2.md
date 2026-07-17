@@ -44,4 +44,4 @@ Study the Figma mobile app design thoroughly. Map every screen to a route. Under
 
 ---
 
-[← Day 1](day-1.md) · [Next: 24 June →](day-3.md)
+[← Day 1](day-1.md) · [Home](index.md) · [Day 3 →](day-3.md)

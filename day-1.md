@@ -40,4 +40,4 @@ First day of the internship. The goal: convert the UtilStop mobile app into a fu
 
 ---
 
-[Next: 23 June →](day-2.md)
+[Home](index.md) · [Day 2 →](day-2.md)

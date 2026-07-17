@@ -43,4 +43,4 @@ Research and finalize the tech stack. Install all dependencies. Understand why e
 
 ---
 
-[← Day 2](day-2.md) · [Next: 25 June →](day-4.md)
+[← Day 2](day-2.md) · [Home](index.md) · [Day 4 →](day-4.md)

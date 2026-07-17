@@ -54,4 +54,4 @@ Ran the app with `npm run dev` and walked through every route manually:
 
 ---
 
-[← Day 7](day-7.md) · [Next: 02 July →](day-9.md)
+[← Day 7](day-7.md) · [Home](index.md) · [Day 9 →](day-9.md)

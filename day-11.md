@@ -173,4 +173,4 @@ The biggest remaining task: **4-step booking flow** — location → date/time �
 
 ---
 
-[← Day 10](day-10.md) · [Home](index.md)
+[← Day 10](day-10.md) · [Home](index.md) · [Day 12 →](day-12.md)

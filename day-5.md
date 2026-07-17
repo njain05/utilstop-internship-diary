@@ -89,4 +89,4 @@ Built the shared building blocks that every page will use:
 
 ---
 
-[← Day 4](day-4.md) · [Next: 29 June →](day-6.md)
+[← Day 4](day-4.md) · [Home](index.md) · [Day 6 →](day-6.md)

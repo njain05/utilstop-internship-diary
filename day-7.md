@@ -50,4 +50,4 @@ Polish everything, write the README, do a final review of every file, and push t
 
 ---
 
-[← Day 6](day-6.md) · [Next: 01 July →](day-8.md)
+[← Day 6](day-6.md) · [Home](index.md) · [Day 8 →](day-8.md)

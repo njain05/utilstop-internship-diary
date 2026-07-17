@@ -44,4 +44,4 @@ Initialize the Vite + React project. Configure Tailwind CSS with the UtilStop br
 
 ---
 
-[← Day 3](day-3.md) · [Next: 26 June →](day-5.md)
+[← Day 3](day-3.md) · [Home](index.md) · [Day 5 →](day-5.md)
