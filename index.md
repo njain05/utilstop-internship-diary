@@ -38,6 +38,9 @@ UtilStop is a multi-service booking platform operating in UAE and India. Custome
 | [15 July](day-19.md) | CountryToggle pill, OfferingViewDrawer extracted, OrderSummaryCard labels, Edit links on Review |
 | [16 July](day-20.md) | P&M 4-step flow, StepPackersSchedule, sidebar nav branch, PR #12 merged to org/developer |
 | [17 July](day-21.md) | Mega menu navbar approved + merged, Review step redesign with service hero image |
+| [20 July](day-22.md) | Testing July 17 features, pulled Sharanya's auth/guest changes, security hardening planning |
+| [21 July](day-23.md) | Security audit of both repos — mapped ID exposure points, mobile compat check, implementation plan |
+| [22 July](day-24.md) | Security hardening implemented in both repos — helmet, rate limiting, CORS, ID encryption in URLs |
 
 ---
 
