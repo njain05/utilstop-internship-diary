@@ -41,6 +41,8 @@ UtilStop is a multi-service booking platform operating in UAE and India. Custome
 | [20 July](day-22.md) | Testing July 17 features, pulled Sharanya's auth/guest changes, security hardening planning |
 | [21 July](day-23.md) | Security audit of both repos — mapped ID exposure points, mobile compat check, implementation plan |
 | [22 July](day-24.md) | Security hardening implemented in both repos — helmet, rate limiting, CORS, ID encryption in URLs |
+| [23 July](day-25.md) | Security hardening verification, encrypted URL ID testing, PR #14 code review |
+| [24 July](day-26.md) | Merged PR #14 (Security Hardening) into developer branch, regression testing |
 
 ---
 

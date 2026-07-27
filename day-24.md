@@ -109,4 +109,4 @@ Sharanya reviewed the changes and raised:
 
 ---
 
-[← Day 23](day-23.md) · [Home](index.md)
+[← Day 23](day-23.md) · [Home](index.md) · [Day 25 →](day-25.md)
