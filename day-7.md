@@ -1,4 +1,4 @@
-# 30 June 2026 — Day 9: Cleanup, README, Initial Git Commit
+# 30 June 2026 — Day 7: Cleanup, README, Initial Git Commit
 
 ## What was the task?
 Polish everything, write the README, do a final review of every file, and push the first commit to GitHub. This is the "version 1 scaffold" milestone.

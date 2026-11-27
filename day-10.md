@@ -1,4 +1,4 @@
-# 03 July 2026 — Day 12: Silent Refresh on Page Load + End-to-End Verification
+# 03 July 2026 — Day 10: Silent Refresh on Page Load + End-to-End Verification
 
 ## What was the task?
 Fix the reload-logout problem: when a user hits F5 or opens the app in a new tab, the JWT access token is lost from memory (Zustand is in-memory only), so they get logged out instantly. Implement a silent refresh that runs on every app load, checks if a valid session exists via the httpOnly cookie, and re-populates the Zustand store transparently.

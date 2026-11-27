@@ -1,4 +1,4 @@
-# 06 July 2026 — Day 14: 4-Step Booking Flow + Bug Fixes + Code Push
+# 06 July 2026 — Day 12: 4-Step Booking Flow + Bug Fixes + Code Push
 
 ## What was the task?
 

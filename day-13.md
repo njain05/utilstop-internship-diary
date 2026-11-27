@@ -1,4 +1,4 @@
-# 07 July 2026 — Day 15: API Investigation, Booking Creation Wired, Error Fixes, Org Repo Pushed
+# 07 July 2026 — Day 13: API Investigation, Booking Creation Wired, Error Fixes, Org Repo Pushed
 
 ## What was the task?
 

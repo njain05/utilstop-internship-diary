@@ -1,4 +1,4 @@
-# 01 July 2026 — Day 10: Testing, Gap Analysis
+# 01 July 2026 — Day 8: Testing, Gap Analysis
 
 ## What was the task?
 Manually test every page of the app. Find what works, what is a placeholder, and what is missing entirely. Create a clear picture of what's left to build.

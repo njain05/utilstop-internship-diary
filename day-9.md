@@ -1,4 +1,4 @@
-# 02 July 2026 — Day 11: Axios Interceptor Infinite Loop — Root Cause & Fix
+# 02 July 2026 — Day 9: Axios Interceptor Infinite Loop — Root Cause & Fix
 
 ## What was the task?
 Investigate and fix the infinite loop risk in the Axios response interceptor inside `src/api/client.js`. Understand exactly where it happens and why, then refactor it safely.
