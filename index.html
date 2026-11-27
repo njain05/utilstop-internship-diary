@@ -662,8 +662,8 @@
             document.getElementById("page-badge").style.backgroundColor = "var(--badge-success-bg)";
             document.getElementById("page-badge").style.color = "var(--badge-success-text)";
 
-            // Fetch and render markdown
-            fetch(`day-${dayNum}.md`)
+            // Fetch and render markdown; always check GitHub for the latest version of the entry
+            fetch(`day-${dayNum}.md`, { cache: "no-cache" })
                 .then(res => {
                     if (!res.ok) throw new Error("File not found");
                     return res.text();
