@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UtilStop Web Application: Daily Diary (TR-103)</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Marked.js for Markdown parsing -->
+    <script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
+    
+    <style>
+        :root {
+            --bg-color: #0b0f17;
+            --sidebar-bg: #111622;
+            --card-bg: rgba(22, 29, 43, 0.6);
+            --border-color: rgba(255, 255, 255, 0.08);
+            --text-primary: #f3f4f6;
+            --text-secondary: #9ca3af;
+            --accent-primary: #00f2fe;
+            --accent-secondary: #4facfe;
+            --accent-gradient: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+            --badge-success-bg: rgba(16, 185, 129, 0.15);
+            --badge-success-text: #34d399;
+            --font-ui: 'Inter', sans-serif;
+            --font-heading: 'Outfit', sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-ui);
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* App Layout */
+        .sidebar {
+            width: 360px;
+            background-color: var(--sidebar-bg);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            background: radial-gradient(circle at top right, rgba(0, 242, 254, 0.03), transparent 40%),
+                        radial-gradient(circle at bottom left, rgba(79, 172, 254, 0.03), transparent 40%);
+        }
+
+        /* Sidebar Styling */
+        .sidebar-header {
+            padding: 24px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .sidebar-header h1 {
+            font-family: var(--font-heading);
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 4px;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .sidebar-header p {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .sidebar-scroll {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+        }
+
+        .week-container {
+            margin-bottom: 24px;
+        }
+
+        .week-title {
+            font-family: var(--font-heading);
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+            padding-left: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .week-title::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background-color: var(--border-color);
+            margin-left: 12px;
+        }
+
+        .day-item {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-bottom: 6px;
+            transition: all 0.2s ease;
+            border: 1px solid transparent;
+        }
+
+        .day-item:hover {
+            background-color: rgba(255, 255, 255, 0.03);
+            border-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .day-item.active {
+            background-color: rgba(79, 172, 254, 0.1);
+            border-color: rgba(79, 172, 254, 0.3);
+        }
+
+        .day-number {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 600;
+            margin-right: 12px;
+            color: var(--text-secondary);
+            transition: all 0.2s ease;
+        }
+
+        .day-item.active .day-number {
+            background-color: var(--accent-secondary);
+            color: #fff;
+            box-shadow: 0 0 12px rgba(79, 172, 254, 0.4);
+        }
+
+        .day-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .day-label {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-primary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .day-meta {
+            font-size: 11px;
+            color: var(--text-secondary);
+            margin-top: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* Main Content Header */
+        .content-header {
+            height: 70px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 32px;
+            background-color: rgba(11, 15, 23, 0.5);
+            backdrop-filter: blur(8px);
+            z-index: 10;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .header-title {
+            font-family: var(--font-heading);
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .status-badge {
+            font-size: 11px;
+            font-weight: 600;
+            padding: 4px 8px;
+            border-radius: 4px;
+            background-color: var(--badge-success-bg);
+            color: var(--badge-success-text);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .action-btn {
+            background-color: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .action-btn:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Detail Reading Panel */
+        .content-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 40px 32px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .markdown-wrapper {
+            max-width: 800px;
+            width: 100%;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 40px;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            height: fit-content;
+        }
+
+        /* Markdown Rendering Overrides */
+        .markdown-content h1 {
+            font-family: var(--font-heading);
+            font-size: 28px;
+            margin-bottom: 24px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 12px;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .markdown-content h2 {
+            font-family: var(--font-heading);
+            font-size: 20px;
+            margin-top: 32px;
+            margin-bottom: 16px;
+            color: var(--accent-primary);
+        }
+
+        .markdown-content p {
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 16px;
+            color: #d1d5db;
+        }
+
+        .markdown-content ul {
+            margin-left: 20px;
+            margin-bottom: 20px;
+        }
+
+        .markdown-content li {
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 12px;
+            color: #d1d5db;
+        }
+
+        .markdown-content li strong {
+            color: var(--text-primary);
+        }
+
+        .markdown-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 24px 0;
+            font-size: 13px;
+        }
+
+        .markdown-content th, .markdown-content td {
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            text-align: left;
+        }
+
+        .markdown-content th {
+            background-color: rgba(255, 255, 255, 0.03);
+            font-family: var(--font-heading);
+            font-weight: 600;
+        }
+
+        .markdown-content tr:hover {
+            background-color: rgba(255, 255, 255, 0.01);
+        }
+
+        .markdown-content hr {
+            border: 0;
+            height: 1px;
+            background-color: var(--border-color);
+            margin: 32px 0;
+        }
+
+        /* Welcome Dashboard styling */
+        .welcome-panel {
+            max-width: 800px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .welcome-hero {
+            background: linear-gradient(135deg, rgba(0, 242, 254, 0.05) 0%, rgba(79, 172, 254, 0.05) 100%);
+            border: 1px solid rgba(79, 172, 254, 0.2);
+            border-radius: 12px;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .welcome-hero h2 {
+            font-family: var(--font-heading);
+            font-size: 32px;
+            margin-bottom: 12px;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .welcome-hero p {
+            color: var(--text-secondary);
+            font-size: 15px;
+            max-width: 500px;
+            margin: 0 auto 24px;
+            line-height: 1.5;
+        }
+
+        .grid-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+
+        .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .stat-val {
+            font-family: var(--font-heading);
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--accent-primary);
+            margin-bottom: 4px;
+        }
+
+        .stat-lbl {
+            font-size: 12px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .welcome-bottom {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 30px;
+        }
+
+        .welcome-bottom h3 {
+            font-family: var(--font-heading);
+            font-size: 18px;
+            margin-bottom: 12px;
+        }
+
+        .tech-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .tech-tag {
+            background-color: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border-color);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            color: var(--text-primary);
+        }
+
+        .markdown-content code {
+            font-size: 13px;
+            background-color: rgba(255, 255, 255, 0.06);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        .markdown-content pre {
+            background-color: rgba(0, 0, 0, 0.35);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 16px;
+            overflow-x: auto;
+            margin-bottom: 20px;
+        }
+
+        .markdown-content pre code {
+            background: none;
+            padding: 0;
+        }
+
+        .markdown-content a {
+            color: var(--accent-secondary);
+        }
+
+        .markdown-content h3 {
+            font-family: var(--font-heading);
+            font-size: 17px;
+            margin-top: 24px;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+        }
+
+        @media (max-width: 800px) {
+            body { flex-direction: column; height: auto; overflow: auto; }
+            .sidebar { width: 100%; height: auto; max-height: 45vh; }
+            .main-content { height: auto; }
+            .content-body { padding: 20px 12px; }
+            .markdown-wrapper { padding: 20px; }
+            .grid-stats { grid-template-columns: 1fr; }
+        }
+
+        /* Scrollbar aesthetics */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h1>UtilStop Web Application</h1>
+            <p>Daily Diary · Four Weeks Training (TR-103) · 22 June to 24 July 2026</p>
+        </div>
+        <div class="sidebar-scroll" id="sidebar-list">
+            <!-- Populated dynamically via JS -->
+        </div>
+    </div>
+
+    <!-- MAIN PANELS -->
+    <div class="main-content">
+        <div class="content-header">
+            <div class="header-left">
+                <span class="header-title" id="page-title">Project Overview</span>
+                <span class="status-badge" id="page-badge">ACTIVE</span>
+            </div>
+            <div>
+                <button class="action-btn" id="home-btn" onclick="showDashboard()">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                    Dashboard
+                </button>
+            </div>
+        </div>
+
+        <div class="content-body">
+            <!-- Render Reading View -->
+            <div class="markdown-wrapper" id="content-view" style="display: none;">
+                <div class="markdown-content" id="markdown-container">
+                    <!-- Dynamic MD insertion -->
+                </div>
+            </div>
+
+            <!-- Default Welcome Panel -->
+            <div class="welcome-panel" id="dashboard-view">
+                <div class="welcome-hero">
+                    <h2>UtilStop Web Application</h2>
+                    <p>Daily diary of the four weeks training at UtilStop India Pvt. Ltd. by Nishtha Jain (URN 2302627), GNDEC Ludhiana: converting the UtilStop mobile booking app into a web application on the same backend.</p>
+                    <button class="action-btn" style="margin: 0 auto; background: var(--accent-gradient); border: 0; color: #000; font-weight: 600;" onclick="selectDay(1)">
+                        Get Started (Day 1)
+                    </button>
+                </div>
+
+                <div class="grid-stats">
+                    <div class="stat-card">
+                        <div class="stat-val">26 Days</div>
+                        <div class="stat-lbl">Logs Kept</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-val">5 Weeks</div>
+                        <div class="stat-lbl">22 Jun to 24 Jul</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-val">100%</div>
+                        <div class="stat-lbl">Completed</div>
+                    </div>
+                </div>
+
+                <div class="welcome-bottom">
+                    <h3>Project Tech Stack</h3>
+                    <p style="font-size: 14px; color: var(--text-secondary); line-height: 1.5;">A responsive single-page web application for booking home services in India and the UAE, integrated with the company's existing REST API used by the mobile apps.</p>
+                    <div class="tech-list">
+                        <span class="tech-tag">React 19</span>
+                        <span class="tech-tag">Vite</span>
+                        <span class="tech-tag">Tailwind CSS</span>
+                        <span class="tech-tag">TanStack Query</span>
+                        <span class="tech-tag">Zustand</span>
+                        <span class="tech-tag">Axios</span>
+                        <span class="tech-tag">React Hook Form &amp; Zod</span>
+                        <span class="tech-tag">Google Maps</span>
+                        <span class="tech-tag">Stripe &amp; Razorpay</span>
+                        <span class="tech-tag">Helmet &amp; express-rate-limit</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const TOTAL_DAYS = 26;
+        const dayMetadata = {
+            1: { date: "22 Jun", title: "Kickoff, project brief and tools setup", category: "Week 1 · 22–26 Jun" },
+            2: { date: "23 Jun", title: "Figma study and screen inventory", category: "Week 1 · 22–26 Jun" },
+            3: { date: "24 Jun", title: "Tech stack research and decision", category: "Week 1 · 22–26 Jun" },
+            4: { date: "25 Jun", title: "Vite scaffold and design tokens", category: "Week 1 · 22–26 Jun" },
+            5: { date: "26 Jun", title: "Architecture and public pages", category: "Week 1 · 22–26 Jun" },
+            6: { date: "29 Jun", title: "Service, booking, payment and account pages", category: "Week 2 · 29 Jun–4 Jul" },
+            7: { date: "30 Jun", title: "Cleanup, README and first commit", category: "Week 2 · 29 Jun–4 Jul" },
+            8: { date: "01 Jul", title: "Manual testing and gap analysis", category: "Week 2 · 29 Jun–4 Jul" },
+            9: { date: "02 Jul", title: "Axios interceptor loop fixed", category: "Week 2 · 29 Jun–4 Jul" },
+            10: { date: "03 Jul", title: "Silent refresh on page load", category: "Week 2 · 29 Jun–4 Jul" },
+            11: { date: "04 Jul", title: "Supervisor meeting and OTP login", category: "Week 2 · 29 Jun–4 Jul" },
+            12: { date: "06 Jul", title: "Four-step booking flow and fixes", category: "Week 3 · 6–10 Jul" },
+            13: { date: "07 Jul", title: "Booking flow working end to end", category: "Week 3 · 6–10 Jul" },
+            14: { date: "08 Jul", title: "Team PR: Packers & Movers, Stripe, Maps", category: "Week 3 · 6–10 Jul" },
+            15: { date: "09 Jul", title: "Home page categories and step 3", category: "Week 3 · 6–10 Jul" },
+            16: { date: "10 Jul", title: "Location picker and tracking page", category: "Week 3 · 6–10 Jul" },
+            17: { date: "13 Jul", title: "Service detail pages and animations", category: "Week 4 · 13–17 Jul" },
+            18: { date: "14 Jul", title: "Full team demo", category: "Week 4 · 13–17 Jul" },
+            19: { date: "15 Jul", title: "Country toggle and review edit links", category: "Week 4 · 13–17 Jul" },
+            20: { date: "16 Jul", title: "Packers & Movers four-step flow", category: "Week 4 · 13–17 Jul" },
+            21: { date: "17 Jul", title: "Mega menu and review step redesign", category: "Week 4 · 13–17 Jul" },
+            22: { date: "20 Jul", title: "Testing and security planning", category: "Week 5 · 20–24 Jul" },
+            23: { date: "21 Jul", title: "Security audit of both repositories", category: "Week 5 · 20–24 Jul" },
+            24: { date: "22 Jul", title: "Security hardening implemented", category: "Week 5 · 20–24 Jul" },
+            25: { date: "23 Jul", title: "Verification and code review", category: "Week 5 · 20–24 Jul" },
+            26: { date: "24 Jul", title: "PR #14 merged, regression testing", category: "Week 5 · 20–24 Jul" },
+        };
+
+        // Populate Sidebar
+        const sidebar = document.getElementById("sidebar-list");
+        let currentWeek = "";
+        let currentWeekEl = null;
+
+        for (let day = 1; day <= TOTAL_DAYS; day++) {
+            const week = dayMetadata[day].category;
+            if (week !== currentWeek) {
+                currentWeek = week;
+
+                const weekContainer = document.createElement("div");
+                weekContainer.className = "week-container";
+
+                const weekTitle = document.createElement("div");
+                weekTitle.className = "week-title";
+                weekTitle.textContent = week;
+
+                weekContainer.appendChild(weekTitle);
+                sidebar.appendChild(weekContainer);
+                currentWeekEl = weekContainer;
+            }
+
+            const item = document.createElement("div");
+            item.className = "day-item";
+            item.id = `day-item-${day}`;
+            item.onclick = () => selectDay(day);
+
+            item.innerHTML = `
+                <div class="day-number">${day}</div>
+                <div class="day-info">
+                    <div class="day-label">Day ${day} · ${dayMetadata[day].date}</div>
+                    <div class="day-meta">${dayMetadata[day].title}</div>
+                </div>
+            `;
+
+            currentWeekEl.appendChild(item);
+        }
+
+        // Action routing
+        function showDashboard() {
+            document.getElementById("dashboard-view").style.display = "flex";
+            document.getElementById("content-view").style.display = "none";
+            document.getElementById("page-title").textContent = "Project Overview";
+            document.getElementById("page-badge").textContent = "ACTIVE";
+            document.getElementById("page-badge").style.backgroundColor = "rgba(79, 172, 254, 0.15)";
+            document.getElementById("page-badge").style.color = "var(--accent-secondary)";
+            
+            // remove active class from all items
+            document.querySelectorAll(".day-item").forEach(el => el.classList.remove("active"));
+            window.location.hash = "";
+        }
+
+        function selectDay(dayNum) {
+            // Remove active classes
+            document.querySelectorAll(".day-item").forEach(el => el.classList.remove("active"));
+            
+            // Add active class to selected item
+            const activeItem = document.getElementById(`day-item-${dayNum}`);
+            if (activeItem) activeItem.classList.add("active");
+
+            // Update header details
+            document.getElementById("page-title").textContent = `Day ${dayNum}: ${dayMetadata[dayNum].title}`;
+            document.getElementById("page-badge").textContent = dayMetadata[dayNum].date;
+            document.getElementById("page-badge").style.backgroundColor = "var(--badge-success-bg)";
+            document.getElementById("page-badge").style.color = "var(--badge-success-text)";
+
+            // Fetch and render markdown
+            fetch(`day-${dayNum}.md`)
+                .then(res => {
+                    if (!res.ok) throw new Error("File not found");
+                    return res.text();
+                })
+                .then(mdText => {
+                    const parsedHtml = marked.parse(mdText);
+                    document.getElementById("markdown-container").innerHTML = parsedHtml;
+                    
+                    document.getElementById("dashboard-view").style.display = "none";
+                    document.getElementById("content-view").style.display = "block";
+                })
+                .catch(err => {
+                    document.getElementById("markdown-container").innerHTML = `<h2>Error</h2><p>Could not fetch diary content for Day ${dayNum}. Ensure files are available.</p>`;
+                    document.getElementById("dashboard-view").style.display = "none";
+                    document.getElementById("content-view").style.display = "block";
+                });
+
+            // Set Hash
+            window.location.hash = `day-${dayNum}`;
+        }
+
+        document.getElementById("markdown-container").addEventListener("click", (e) => {
+            const link = e.target.closest("a");
+            if (!link) return;
+            const href = link.getAttribute("href") || "";
+            const dayLink = href.match(/^day-(\d+)\.md$/);
+            if (dayLink) {
+                e.preventDefault();
+                selectDay(parseInt(dayLink[1]));
+                document.querySelector(".content-body").scrollTop = 0;
+            } else if (href === "index.md") {
+                e.preventDefault();
+                showDashboard();
+            }
+        });
+
+        // Direct Routing on load
+        window.addEventListener("DOMContentLoaded", () => {
+            const hash = window.location.hash;
+            const match = hash.match(/#day-(\d+)/);
+            if (match) {
+                const dayNum = parseInt(match[1]);
+                if (dayNum >= 1 && dayNum <= TOTAL_DAYS) {
+                    selectDay(dayNum);
+                }
+            }
+        });
+    </script>
+</body>
+</html>
